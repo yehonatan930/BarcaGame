@@ -13,15 +13,15 @@ public class SquarePanel extends JPanel implements MouseListener {
     private static final Color WATERPOOL = new Color(0, 255, 216);
     private int xPos;
     private int yPos;
-    private final boolean white;
+    private final boolean isWhite;
     private boolean isWaterPool = false;
     private final JLabel piece;
     private final BoardPanel board;
 
-    public SquarePanel(boolean white, int x, int y, BoardPanel boardPanel) {
+    public SquarePanel(boolean isWhite, int x, int y, BoardPanel boardPanel) {
         super();
-        this.white = white;
-        if (white)
+        this.isWhite = isWhite;
+        if (isWhite)
             this.setBackground(WHITE);
         else
             this.setBackground(BLUE);
@@ -39,7 +39,6 @@ public class SquarePanel extends JPanel implements MouseListener {
         this.setBorder(border);
     }
 
-    //methods:
     public int getXPos() {
         return this.xPos;
     }
@@ -81,7 +80,7 @@ public class SquarePanel extends JPanel implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         if (isWaterPool)
             this.setBackground(WATERPOOL);
-        else if (white)
+        else if (isWhite)
             this.setBackground(WHITE);
         else
             this.setBackground(BLUE);

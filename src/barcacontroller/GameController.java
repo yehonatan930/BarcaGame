@@ -13,47 +13,41 @@ public class GameController {
     private GameFrame frame;
     private BarcaBoard board;
     private Move currentMove;
-    private Player[] players;
+    private final Player[] players = new Player[2];
     private boolean click;
-    private boolean whiteTurn;
-    private boolean gameRunning;
+    private boolean isWhiteTurn;
+    private boolean isGameRunning;
 
     public GameController() {
         click = false;
     }
 
     public void move(SquarePanel s) {
-        int offset = (this.whiteTurn) ? 0 : 1;
-        boolean turn = players[offset] instanceof Bot;
-        //System.out.println("MOV");
-        if (gameRunning && !turn)
-            turn = turn(s, offset);
-        offset = Math.abs(offset - 1);
-        if (gameRunning && turn && players[offset] instanceof Bot) {
-            //System.out.println("BOT");
+        int offset = (this.isWhiteTurn) ? 0 : 1;
+        boolean isBotTurn = players[offset] instanceof Bot;
+        if (isGameRunning && !isBotTurn)
+            isBotTurn = turn(s, offset);
+        offset = offset == 0 ? 1 : 0;
+        if (isGameRunning && isBotTurn && players[offset] instanceof Bot) {
             ((Bot) players[offset]).makeMove(board);
             win(offset);
-            this.whiteTurn = !this.whiteTurn;
+            this.isWhiteTurn = !this.isWhiteTurn;
             printTurn();
         }
     }
 
     public boolean turn(SquarePanel s, int offset) {
-        GameSquare current = board.getSquare(s.getXPos(), s.getYPos());
-        //System.out.println(s.getXPos() + " " + s.getYPos());
-        if (!this.click && !current.isEmpty() && current.getPiece().getIsWhite() == this.whiteTurn && players[offset].hasScaredPiece(board) == current.getPiece().getIsScared()) {
-            //System.out.println("1 click");
-            this.currentMove = new Move(current);
+        GameSquare currentGameSquare = board.getSquare(s.getXPos(), s.getYPos());
+        if (!this.click && !currentGameSquare.isEmpty() && currentGameSquare.getPiece().getIsWhite() == this.isWhiteTurn && players[offset].hasScaredPiece(board) == currentGameSquare.getPiece().getIsScared()) {
+            this.currentMove = new Move(currentGameSquare);
             this.click = true;
-        } else if (this.click && currentMove.getSrc().getPiece().canMove(current, board)) {
-            //System.out.println("2 click");
-            this.currentMove.addDest(current);
+        } else if (this.click && currentMove.getSrc().getPiece().canMove(currentGameSquare, board)) {
+            this.currentMove.setDest(currentGameSquare);
             this.currentMove.getDest().placePiece(this.currentMove.getSrc().removePiece());
             this.click = false;
             win(offset);
-            this.whiteTurn = !this.whiteTurn;
+            this.isWhiteTurn = !this.isWhiteTurn;
             printTurn();
-            //System.out.println(players[offset].getPlayerName());
             return true;
         } else {
             this.click = false;
@@ -73,10 +67,8 @@ public class GameController {
             }
         }
 
-        boolean amIWhite = true;
-        players = new Player[2];
-        players[0] = new Player("you", amIWhite);
-        players[1] = new Bot(!amIWhite);
+        players[0] = new Player("you", true);
+        players[1] = new Bot(false);
 
         for (Player p : players) {
             p.placeOnBoard(board);
@@ -86,11 +78,11 @@ public class GameController {
     }
 
     public void gameRunning() {
-        whiteTurn = true;
+        isWhiteTurn = true;
         printTurn();
-        gameRunning = true;
+        isGameRunning = true;
         int offset;
-        while (gameRunning) {
+        while (isGameRunning) {
             /*
             offset = (this.whiteTurn)? 0:1;
             if(players[offset] instanceof Bot){
@@ -105,7 +97,7 @@ public class GameController {
     }
 
     public void printTurn() {
-        if (whiteTurn)
+        if (isWhiteTurn)
             System.out.println("white's turn");
         else
             System.out.println("brown's turn");
@@ -114,17 +106,17 @@ public class GameController {
     public void win(int offset) {
         int count = 0;
         if (!board.getSquare(3, 3).isEmpty())
-            count += (board.getSquare(3, 3).getPiece().getIsWhite() == whiteTurn) ? 1 : 0;
+            count += (board.getSquare(3, 3).getPiece().getIsWhite() == isWhiteTurn) ? 1 : 0;
         if (!board.getSquare(3, 6).isEmpty())
-            count += (board.getSquare(3, 6).getPiece().getIsWhite() == whiteTurn) ? 1 : 0;
+            count += (board.getSquare(3, 6).getPiece().getIsWhite() == isWhiteTurn) ? 1 : 0;
         if (!board.getSquare(6, 3).isEmpty())
-            count += (board.getSquare(6, 3).getPiece().getIsWhite() == whiteTurn) ? 1 : 0;
+            count += (board.getSquare(6, 3).getPiece().getIsWhite() == isWhiteTurn) ? 1 : 0;
         if (!board.getSquare(6, 6).isEmpty())
-            count += (board.getSquare(6, 6).getPiece().getIsWhite() == whiteTurn) ? 1 : 0;
+            count += (board.getSquare(6, 6).getPiece().getIsWhite() == isWhiteTurn) ? 1 : 0;
         if (count > 2) {
             String str = players[offset].getPlayerName() + " won the game!";
             System.out.println(str);
-            gameRunning = false;
+            isGameRunning = false;
             frame.win(str);
         }
     }

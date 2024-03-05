@@ -1,35 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package barcamodel;
 
-import barcaview.SquarePanel;
-
-/**
- *
- * @author User
- */
 public class Move {
-    private GameSquare src;
+    private final GameSquare src;
     private GameSquare dest;
-    
-    
-    //array of squares of possible moves.
-    
-    //constructors:
     public Move(GameSquare src){
         this.src = src;
     }
     
     public Move(GameSquare src, GameSquare dest){
         this.src = src;
-        addDest(dest);
+        setDest(dest);
     }
     
-    public boolean addDest(GameSquare dest){ //checks if move is valid!
+    public void setDest(GameSquare dest){ //checks if move is valid!
         this.dest = dest;
-        return true;
     }
     
 
