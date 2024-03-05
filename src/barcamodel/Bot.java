@@ -1,23 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package barcamodel;
 
-import barcaview.SquarePanel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-/**
- *
- * @author User
- */
 public class Bot extends Player {
-    
-    
-    public Bot(boolean white){
-        super("computer", white);
+    public Bot(boolean isWhite){
+        super("computer", isWhite);
     }
     
     public void makeMove(BarcaBoard board){        
@@ -42,7 +31,7 @@ public class Bot extends Player {
         ArrayList<Move> possibleMoves = new ArrayList<Move>();
         boolean hasScared = this.hasScaredPiece(board);       
         for(GamePiece p : playerPieces){
-            if(p.getScared() == hasScared)             
+            if(p.getIsScared() == hasScared)
                 possibleMoves.addAll(p.getPossibleMoves(board));          
         }
         //calculating every move's quality

@@ -1,63 +1,55 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package barcamodel;
 
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author User
- */
 public abstract class GamePiece {
-    //variables:
-    private boolean white = false;
-    private boolean scared;
+    private final boolean isWhite;
+    private boolean isScared;
     protected ImageIcon icon;
     protected GameSquare square;
-        
-    
-      
-    //constructors:  
-    public GamePiece(boolean white){
-        this.white = white;
-        setScared(false);
-        
+
+    public GamePiece(boolean isWhite) {
+        this.isWhite = isWhite;
+        setIsScared(false);
+
     }
-    public void setSquare(GameSquare s){
-       this.square = s;
+
+    public void setIsScared(boolean isScared) {
+        this.isScared = isScared;
     }
-    
-    public ImageIcon getIcon() {return icon;}
+
+    public void setSquare(GameSquare s) {
+        this.square = s;
+    }
+
+    public ImageIcon getIcon() {
+        return icon;
+    }
 
     public GameSquare getSquare() {
         return square;
     }
-    
-    
-    
-  
-    //methods:
-    //setters
-    public void setScared(boolean isScared) {
-        this.scared = isScared;
-    }  
-    //getters
-    public boolean isWhite() {
-        return this.white;
+
+    public boolean getIsWhite() {
+        return this.isWhite;
     }
+
+    public boolean getIsScared() {
+        return isScared;
+    }
+
     //isScared:
     //this function will check the piece's neighbors and set scared state accordingly.
     //the function will return the scared state (false/true).
-    protected  boolean isScared(GamePiece p){
-        return p!=null && p.isWhite()!= this.isWhite();
+    protected boolean isOtherPieceScary(GamePiece p) {
+        return this.isOtherPieceAnEnemy(p);
     }
-    
-    public boolean getScared(){
-        return scared;
+
+    protected boolean isOtherPieceAnEnemy(GamePiece p) {
+        return p != null && p.getIsWhite() != this.getIsWhite();
     }
+
     /*
     public GamePiece getScaryNeighbor(){
         for (int i = -1; i <=1 ; i++)
@@ -70,13 +62,13 @@ public abstract class GamePiece {
         setScared(false);
          return null;       
     }
-*/ 
-    
-    public boolean canMove(GameSquare targetSquare, BarcaBoard b){
+*/
+
+    public boolean canMove(GameSquare targetSquare, BarcaBoard b) {
         return targetSquare.isEmpty() && targetSquare != this.square;
     }
-    
+
     public abstract boolean isStuck(BarcaBoard b);
-    
+
     public abstract ArrayList<Move> getPossibleMoves(BarcaBoard b);
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package barcaview;
 
 import java.awt.*;
@@ -10,28 +6,20 @@ import java.util.Map;
 import javax.swing.*;
 
 /**
- *
  * @author User
  */
 public class GameFrame extends JFrame {
-    //variables:
     static final int LENGTH = 750;
     static final int HEIGHT = 800;
-    private JLabel gameTitle;
-    private BoardPanel board;
-    //constructors:
-    public GameFrame(){
-        //screen size setting
-        setSize(LENGTH,HEIGHT);
-        //close op
+
+    public GameFrame() {
+        setSize(LENGTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //title setting
         this.setTitle("Barca Game");
-        //resize?
-        this.setResizable(false);        
+        this.setResizable(false);
     }
-    
-    public void win(String str){
+
+    public void win(String str) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("GAME OVER");

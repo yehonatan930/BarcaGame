@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package barcamodel;
 
-/**
- *
- * @author User
- */
 public class Play {
-    private Move move;
+    private final Move move;
     private int playQuality;
     
     public Play(Move move){
@@ -25,11 +17,6 @@ public class Play {
         return playQuality;
     }
 
-    /*
-    public void setPlayQuality(int playQuality) {
-        this.playQuality = playQuality;
-    }
-    */
     
     public int calculateQuality(BarcaBoard b, GamePiece[] pieces){
         int cal = 0;
@@ -64,8 +51,8 @@ public class Play {
         //scares op
         for (int i = -1; i <=1 ; i++)
             for (int j = -1; j <=1 ; j++)
-                if(!b.isEmpty(i + dest.getX(), j + dest.getY()))
-                    if (b.getPieceInPos(i + dest.getX(), j + dest.getY()).isScared(p))
+                if(b.placeIsNotEmpty(i + dest.getX(), j + dest.getY()))
+                    if (b.getPieceInPos(i + dest.getX(), j + dest.getY()).isOtherPieceScary(p))
                         cal += 3;
         
         //access to water hole        
