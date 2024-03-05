@@ -24,11 +24,11 @@ public class GameController {
 
     public void move(SquarePanel s) {
         int offset = (this.isWhiteTurn) ? 0 : 1;
-        boolean isBotTurn = players[offset] instanceof Bot;
-        if (isGameRunning && !isBotTurn)
-            isBotTurn = turn(s, offset);
+        boolean turn = players[offset] instanceof Bot;
+        if (isGameRunning && !turn)
+            turn = turn(s, offset);
         offset = offset == 0 ? 1 : 0;
-        if (isGameRunning && isBotTurn && players[offset] instanceof Bot) {
+        if (isGameRunning && turn && players[offset] instanceof Bot) {
             ((Bot) players[offset]).makeMove(board);
             win(offset);
             this.isWhiteTurn = !this.isWhiteTurn;
